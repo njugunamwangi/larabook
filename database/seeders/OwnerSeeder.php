@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AdminUserSeeder extends Seeder
+class OwnerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,11 +15,11 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Administrator',
-            'email' => 'superadmin@booking.com',
-            'password' => bcrypt('SuperSecretPassword'),
+            'name' => 'Owner',
+            'email' => 'owner@booking.com',
+            'password' => bcrypt('ownerPassword'),
             'email_verified_at' => now(),
-            'role_id' => Role::ROLE_ADMINISTRATOR
+            'role_id' => Role::ROLE_OWNER
         ]);
     }
 }
