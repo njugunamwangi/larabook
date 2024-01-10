@@ -14,7 +14,8 @@ class BookingsTest extends TestCase
 
     public function test_user_has_access_to_bookings_feature()
     {
-        $this->artisan('seed --PermissionSeeder');
+
+        $this->artisan('migrate:fresh --seed');
 
         $owner = User::factory()->create()->assignRole(Role::ROLE_USER);
         $response = $this->actingAs($owner)->getJson('/api/user/bookings');
@@ -24,7 +25,6 @@ class BookingsTest extends TestCase
 
     public function test_property_owner_does_not_have_access_to_bookings_feature()
     {
-        $this->artisan('migrate:fresh --seed');
 
         $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
         $response = $this->actingAs($owner)->getJson('/api/user/bookings');

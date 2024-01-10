@@ -14,7 +14,7 @@ class PropertiesTest extends TestCase
 
     public function test_property_owner_has_access_to_properties_feature()
     {
-        $this->artisan('migrate:seed --fresh');
+        $this->artisan('migrate:fresh --seed');
 
         $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
         $response = $this->actingAs($owner)->getJson('/api/owner/properties');
@@ -24,7 +24,6 @@ class PropertiesTest extends TestCase
 
     public function test_user_does_not_have_access_to_properties_feature()
     {
-        $this->artisan('migrate:seed --fresh');
 
         $owner = User::factory()->create()->assignRole(Role::ROLE_USER);
         $response = $this->actingAs($owner)->getJson('/api/owner/properties');
