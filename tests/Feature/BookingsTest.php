@@ -16,7 +16,7 @@ class BookingsTest extends TestCase
     {
         $this->artisan('seed --PermissionSeeder');
 
-        $owner = User::factory()->create(['role_id' => Role::ROLE_USER]);
+        $owner = User::factory()->create()->assignRole(Role::ROLE_USER);
         $response = $this->actingAs($owner)->getJson('/api/user/bookings');
 
         $response->assertStatus(200);
@@ -26,7 +26,7 @@ class BookingsTest extends TestCase
     {
         $this->artisan('migrate:fresh --seed');
 
-        $owner = User::factory()->create(['role_id' => Role::ROLE_OWNER]);
+        $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
         $response = $this->actingAs($owner)->getJson('/api/user/bookings');
 
         $response->assertStatus(403);

@@ -16,7 +16,7 @@ class PropertiesTest extends TestCase
     {
         $this->artisan('migrate:seed --fresh');
 
-        $owner = User::factory()->create(['role_id' => Role::ROLE_OWNER]);
+        $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
         $response = $this->actingAs($owner)->getJson('/api/owner/properties');
 
         $response->assertStatus(200);
@@ -26,7 +26,7 @@ class PropertiesTest extends TestCase
     {
         $this->artisan('migrate:seed --fresh');
 
-        $owner = User::factory()->create(['role_id' => Role::ROLE_USER]);
+        $owner = User::factory()->create()->assignRole(Role::ROLE_USER);
         $response = $this->actingAs($owner)->getJson('/api/owner/properties');
 
         $response->assertStatus(403);
