@@ -21,7 +21,6 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'role_id' => ['required', Rule::in(Role::ROLE_OWNER, Role::ROLE_USER)],
         ]);
 
         $user = User::create([
@@ -30,7 +29,7 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->assignRole($request->id);
+        $user->assignRole(Role::ROLE_OWNER);
 
         return response()->json([
             'access_token' => $user->createToken('client')->plainTextToken,
