@@ -15,7 +15,6 @@ class BookingsTest extends TestCase
     public function test_user_has_access_to_bookings_feature()
     {
 
-        $this->artisan('migrate:fresh --seed');
 
         $owner = User::factory()->create()->assignRole(Role::ROLE_USER);
         $response = $this->actingAs($owner)->getJson('/api/user/bookings');

@@ -15,7 +15,6 @@ class PropertiesTest extends TestCase
 
     public function test_property_owner_has_access_to_properties_feature()
     {
-        $this->artisan('migrate:fresh --seed');
 
         $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
         $response = $this->actingAs($owner)->getJson('/api/owner/properties');
@@ -34,6 +33,7 @@ class PropertiesTest extends TestCase
 
     public function test_property_owner_can_add_property()
     {
+
         $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
         $response = $this->actingAs($owner)->postJson('/api/owner/properties', [
             'name' => 'My property',

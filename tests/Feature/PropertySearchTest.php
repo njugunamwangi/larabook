@@ -19,7 +19,6 @@ class PropertySearchTest extends TestCase
 
     public function test_property_search_by_city_returns_correct_results(): void
     {
-        $this->seed();
 
         $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
         $cities = City::take(2)->pluck('id');
@@ -35,7 +34,6 @@ class PropertySearchTest extends TestCase
 
     public function test_property_search_by_country_returns_correct_results(): void
     {
-        $this->seed();
 
         $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
         $countries = Country::with('cities')->take(2)->get();
@@ -57,7 +55,6 @@ class PropertySearchTest extends TestCase
 
     public function test_property_search_by_geo_object_returns_correct_results(): void
     {
-        $this->seed();
 
         $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
         $cityId = City::value('id');
