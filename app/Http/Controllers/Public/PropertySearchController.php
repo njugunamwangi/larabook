@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\GeoObject;
 use App\Models\Property;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,20 @@ class PropertySearchController extends Controller
             })
             ->when($request->country, function($query) use ($request) {
                 $query->whereHas('city', fn($q) => $q->where('country_id', $request->country));
+            })
+            ->when($request->geo_object, function($query) use ($request) {
+                $geo_object = GeoObject::find($request->geo_object);
+                if ($geo_object) {
+                    $condition = "(
+                        6371 * acos(
+                            cos(radians(" . $geo_object->lat . "))
+                            * cos(radians(`lat`))
+                            * cos(radians(`long`) - radians(" . $geo_object->long . "))
+                            + sin(radians(" . $geo_object->lat . ")) * sin(radians(`lat`))
+                        ) < 10
+                    )";
+                    $query->whereRaw($condition);
+                }
             })
             ->get();
     }
