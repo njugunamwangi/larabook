@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->group(function() {
     });
 
     Route::prefix('user')->group(function () {
-        Route::get('user/bookings', [BookingController::class, 'index']);
+        Route::get('bookings', [BookingController::class, 'index']);
     });
 });
 
