@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Room::class)->constrained();
             $table->foreignIdFor(BedType::class)->constrained();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->timestamps();
         });
     }
