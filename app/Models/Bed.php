@@ -15,4 +15,8 @@ class Bed extends Model
     public function room(): BelongsTo {
         return $this->belongsTo(Room::class);
     }
+
+    public function bedType(): BelongsTo {
+        return $this->belongsTo(BedType::class);
+    }
 }
