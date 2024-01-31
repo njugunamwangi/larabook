@@ -32,5 +32,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GeoObjectSeeder::class);
 
         $this->call(PropertySeeder::class);
+        $this->call(ApartmentSeeder::class);
     }
 }

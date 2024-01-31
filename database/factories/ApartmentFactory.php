@@ -25,6 +25,7 @@ class ApartmentFactory extends Factory
             'capacity_adults' => rand(1, 5),
             'capacity_children' => rand(1, 5),
             'size' => rand(10, 50),
+            'bathrooms' => rand(0, 5),
         ];
     }
 }
