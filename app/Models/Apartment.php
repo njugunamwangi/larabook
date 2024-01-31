@@ -24,4 +24,9 @@ class Apartment extends Model
     public function rooms() : HasMany {
         return $this->hasMany(Room::class);
     }
+
+    public function beds() : HasManyThrough
+    {
+        return $this->hasManyThrough(Bed::class, Room::class);
+    }
 }
