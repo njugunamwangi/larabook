@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FacilityCategory extends Model
+class Facility extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function facilities()
+    public function category()
     {
-        return $this->hasMany(Facility::class, 'category_id');
+        return $this->belongsTo(FacilityCategory::class, 'category_id');
     }
 }
