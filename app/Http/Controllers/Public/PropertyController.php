@@ -14,6 +14,8 @@ class PropertyController extends Controller
      */
     public function __invoke(Property $property, Request $request)
     {
+        $property->load('apartments.facilities');
+
         if ($request->adults && $request->children) {
             $property->load(['apartments' => function ($query) use ($request) {
                 $query->where('capacity_adults', '>=', $request->adults)
