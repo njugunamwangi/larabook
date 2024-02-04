@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Public\PropertyController;
+use App\Http\Controllers\Public\PropertyController as PublicPropertyController;
+use App\Http\Controllers\Owner\PropertyController as OwnerPropertyController;
 use App\Http\Controllers\Public\PropertySearchController;
 use App\Http\Controllers\User\BookingController;
 use Illuminate\Http\Request;
@@ -21,8 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::prefix('owner')->group(function () {
-        Route::get('properties', [PropertyController::class, 'index']);
-        Route::post('properties',[PropertyController::class, 'store']);
+        Route::get('properties', [OwnerPropertyController::class, 'index']);
+        Route::post('properties',[OwnerPropertyController::class, 'store']);
     });
 
     Route::prefix('user')->group(function () {
@@ -31,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
 
 Route::get('search', PropertySearchController::class);
-Route::get('properties/{property}', PropertyController::class);
+Route::get('properties/{property}', PublicPropertyController::class);
 
 Route::post('auth/register', RegisterController::class);
 Route::post('auth/login', LoginController::class);
