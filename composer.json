@@ -10,6 +10,7 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "spatie/laravel-medialibrary": "11.0.0",
         "spatie/laravel-permission": "^6.3",
         "staudenmeir/eloquent-eager-limit": "^1.0",
         "toin0u/geocoder-laravel": "^4.6"
