@@ -20,4 +20,8 @@ class Facility extends Model
     public function apartments() : BelongsToMany {
         return $this->belongsToMany(Facility::class);
     }
+
+    public function properties() : BelongsToMany {
+        return $this->belongsToMany(Property::class);
+    }
 }
