@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PropertySearchResource;
+use App\Models\Facility;
 use App\Models\GeoObject;
 use App\Models\Property;
 use Illuminate\Http\Request;
@@ -52,6 +53,16 @@ class PropertySearchController extends Controller
             })
             ->get();
 
-        return PropertySearchResource::collection($properties);
+        $allFacilities = $properties->pluck('facilities')->flatten();
+        $facilities = $allFacilities->unique('name')
+            ->mapWithKeys(function ($facility) use ($allFacilities) {
+                return [$facility->name => $allFacilities->where('name', $facility->name)->count()];
+            })
+            ->sortDesc();
+
+        return [
+            'properties' => PropertySearchResource::collection($properties),
+            'facilities' => $facilities,
+        ];
     }
 }
