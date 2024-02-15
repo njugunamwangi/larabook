@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::get('properties', [OwnerPropertyController::class, 'index']);
         Route::post('properties',[OwnerPropertyController::class, 'store']);
         Route::post('properties/{property}/photos', [PropertyPhotoController::class, 'store']);
+        Route::post('properties/{property}/photos/{photo}/reorder/{newPosition}', [PropertyPhotoController::class, 'reorder']);
     });
 
     Route::prefix('user')->group(function () {
