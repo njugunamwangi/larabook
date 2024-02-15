@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Property extends Model implements HasMedia
@@ -42,5 +43,11 @@ class Property extends Model implements HasMedia
 
     public function facilities() : BelongsToMany {
         return $this->belongsToMany(Facility::class);
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumbnail')
+            ->width(800);
     }
 }
