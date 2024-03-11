@@ -27,7 +27,7 @@ class StoreBookingRequest extends FormRequest
             'apartment_id' => [
                 'required',
                 'exists:apartments,id',
-                // new ApartmentAvailableRule()
+                new ApartmentAvailableRule()
             ],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date'],
