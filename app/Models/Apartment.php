@@ -31,6 +31,11 @@ class Apartment extends Model
         return $this->hasMany(Room::class);
     }
 
+    public function bookings(): HasMany
+    {
+         return $this->hasMany(Booking::class);
+    }
+
     public function beds() : HasManyThrough
     {
         return $this->hasManyThrough(Bed::class, Room::class);
