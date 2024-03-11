@@ -23,9 +23,10 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(RoleSeeder::class);
+        $this->call(PermissionSeeder::class);
         $this->call(AdminUserSeeder::class);
         $this->call(OwnerSeeder::class);
-        $this->call(PermissionSeeder::class);
+        $this->call(UserSeeder::class);
 
         $this->call(CountrySeeder::class);
         $this->call(CitySeeder::class);
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
 
         // $this->call(PropertySeeder::class);
         // $this->call(ApartmentSeeder::class);
+        // $this->call(ApartmentPriceSeeder::class);
         // $this->call(RoomSeeder::class);
         // $this->call(BedSeeder::class);
     }
