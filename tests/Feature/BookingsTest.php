@@ -12,6 +12,23 @@ class BookingsTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function create_apartment(): Apartment
+    {
+        $owner = User::factory()->create()->assignRole(Role::ROLE_OWNER);
+        $cityId = City::value('id');
+        $property = Property::factory()->create([
+            'owner_id' => $owner->id,
+            'city_id' => $cityId,
+        ]);
+
+        return Apartment::create([
+            'name' => 'Apartment',
+            'property_id' => $property->id,
+            'capacity_adults' => 3,
+            'capacity_children' => 2,
+        ]);
+    }
+
     public function test_user_has_access_to_bookings_feature()
     {
 
