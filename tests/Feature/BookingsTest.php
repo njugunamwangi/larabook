@@ -2,6 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Apartment;
+use App\Models\Booking;
+use App\Models\City;
+use App\Models\Property;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -108,4 +112,33 @@ class BookingsTest extends TestCase
         $response->assertStatus(403);
     }
 
+    public function test_user_can_cancel_their_booking_but_still_view_it()
+    {
+        $user1 = User::factory()->create()->assignRole(Role::ROLE_USER);
+        $user2 = User::factory()->create()->assignRole(Role::ROLE_USER);
+        $apartment = $this->create_apartment();
+        $booking = Booking::create([
+            'apartment_id' => $apartment->id,
+            'user_id' => $user1->id,
+            'start_date' => now()->addDay(),
+            'end_date' => now()->addDays(2),
+            'guests_adults' => 1,
+            'guests_children' => 0,
+        ]);
+
+        $response = $this->actingAs($user2)->deleteJson('/api/user/bookings/' . $booking->id);
+        $response->assertStatus(403);
+
+        $response = $this->actingAs($user1)->deleteJson('/api/user/bookings/' . $booking->id);
+        $response->assertStatus(204);
+
+        $response = $this->actingAs($user1)->getJson('/api/user/bookings');
+        $response->assertStatus(200);
+        $response->assertJsonCount(1);
+        $response->assertJsonFragment(['cancelled_at' => now()->toDateString()]);
+
+        $response = $this->actingAs($user1)->getJson('/api/user/bookings/' . $booking->id);
+        $response->assertStatus(200);
+        $response->assertJsonFragment(['cancelled_at' => now()->toDateString()]);
+    }
 }
