@@ -39,6 +39,10 @@ class Apartment extends Model
         return $this->belongsToMany(Facility::class);
     }
 
+    public function prices(): HasMany {
+        return $this->hasMany(ApartmentPrice::class);
+    }
+
     public function bedsList(): Attribute
     {
         $allBeds = $this->beds;

@@ -17,4 +17,8 @@ class ApartmentPrice extends Model
         'start_date' => 'date',
         'end_date' => 'date',
     ];
+
+    public function apartment(): BelongsTo {
+        return $this->belongsTo(Apartment::class);
+    }
 }
