@@ -47,4 +47,65 @@ class BookingsTest extends TestCase
 
         $response->assertStatus(403);
     }
+
+    public function test_user_can_book_apartment_successfully_but_not_twice()
+    {
+        $user = User::factory()->create()->assignRole(Role::ROLE_USER);
+        $apartment = $this->create_apartment();
+
+        $bookingParameters = [
+            'apartment_id' => $apartment->id,
+            'start_date' => now()->addDay(),
+            'end_date' => now()->addDays(2),
+            'guests_adults' => 2,
+            'guests_children' => 1,
+        ];
+        $response = $this->actingAs($user)->postJson('/api/user/bookings', $bookingParameters);
+        $response->assertStatus(201);
+
+        $response = $this->actingAs($user)->postJson('/api/user/bookings', $bookingParameters);
+        $response->assertStatus(422);
+
+        $bookingParameters['start_date'] = now()->addDays(3);
+        $bookingParameters['end_date'] = now()->addDays(4);
+        $bookingParameters['guests_adults'] = 5;
+        $response = $this->actingAs($user)->postJson('/api/user/bookings', $bookingParameters);
+        $response->assertStatus(422);
+    }
+
+    public function test_user_can_get_only_their_bookings()
+    {
+        $user1 = User::factory()->create()->assignRole(Role::ROLE_USER);
+        $user2 = User::factory()->create()->assignRole(Role::ROLE_USER);
+        $apartment = $this->create_apartment();
+        $booking1 = Booking::create([
+            'apartment_id' => $apartment->id,
+            'user_id' => $user1->id,
+            'start_date' => now()->addDay(),
+            'end_date' => now()->addDays(2),
+            'guests_adults' => 1,
+            'guests_children' => 0,
+        ]);
+        $booking2 = Booking::create([
+            'apartment_id' => $apartment->id,
+            'user_id' => $user2->id,
+            'start_date' => now()->addDay(3),
+            'end_date' => now()->addDays(4),
+            'guests_adults' => 2,
+            'guests_children' => 1,
+        ]);
+
+        $response = $this->actingAs($user1)->getJson('/api/user/bookings');
+        $response->assertStatus(200);
+        $response->assertJsonCount(1);
+        $response->assertJsonFragment(['guests_adults' => 1]);
+
+        $response = $this->actingAs($user1)->getJson('/api/user/bookings/' . $booking1->id);
+        $response->assertStatus(200);
+        $response->assertJsonFragment(['guests_adults' => 1]);
+
+        $response = $this->actingAs($user1)->getJson('/api/user/bookings/' . $booking2->id);
+        $response->assertStatus(403);
+    }
+
 }
