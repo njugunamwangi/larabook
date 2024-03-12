@@ -17,9 +17,11 @@ class ApartmentAvailableRule implements ValidationRule, DataAwareRule
         $apartment = Apartment::find($value);
         if (!$apartment) {
             $fail('Sorry, this apartment is not found');
+            abort(404);
         }
         if ($apartment->capacity_adults < $this->data['guests_adults'] || $apartment->capacity_children < $this->data['guests_children']) {
             $fail('Sorry, this apartment does not fit all your guests');
+            abort(422);
         }
         if (Booking::where('apartment_id', $value)
             ->validForRange([$this->data['start_date'], $this->data['end_date']])
